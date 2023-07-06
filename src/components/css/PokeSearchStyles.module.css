@@ -32,7 +32,7 @@
 }
 
 .PokeSearchSearchButton{
-    width: 15vh;
+    width: 45%;
     font-size: 1rem;
     border-radius: 5px;
     border: 1px solid #E7E7E6;
@@ -57,9 +57,29 @@
   }
 
   .PokemonResultContainer img{
-    width: 30vw; 
+    width: 20vw; 
   }
 
-  .order{
-    place-content: flex-start right;
+  .PokeSearchSearchButtonsContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: #7AA3B8;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    width: 100%;
+  }
+
+  .icon{
+    width: 45%;
+    margin: 10px;
+    cursor: pointer;
+    color: #464646;
+  }
+
+  .icon:hover{
+    transform: scale(1.2);
+    color:#F0DBA5;
   }
