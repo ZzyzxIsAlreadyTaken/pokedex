@@ -7,4 +7,59 @@
     border-radius: 10px;
     padding: 10px;
     margin: 10px;
+    border: 1px solid #F0DBA5;
+    box-shadow: 5px 10px 2px #F0DBA5;
 }
+
+.PokeSearchSearchArea{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #7AA3B8;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.PokeSearchSearchInput{
+    width: 30vh;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 0;
+    margin: 10px;
+    padding: 10px;
+}
+
+.PokeSearchSearchButton{
+    width: 15vh;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 1px solid #E7E7E6;
+    margin: 10px;
+    padding: 5px;
+    background-color: #7AA3B8;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+}
+
+.PokeSearchSearchButton:hover {
+    background-color: #F0DBA5;
+    box-shadow: 0px 15px 20px rgba(240, 219, 165, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+  }
+
+  .kidoba{
+    color: #C04C4B;
+    font-weight: bolder;
+  }
+
+  .PokemonResultContainer img{
+    width: 30vw; 
+  }
+
+  .order{
+    place-content: flex-start right;
+  }
