@@ -1,13 +1,23 @@
 import "./App.css";
 import Card from "./components/Card.tsx";
 import PokeSearch from "./components/PokeSearch.tsx";
+import { useState } from "react";
+import { IPokemon } from "./components/IPokemon";
 
 function App() {
+  const [searchResults, setSearchResults] = useState<IPokemon>();
+
+  function handleSearchResults(results: any) {
+    setSearchResults(results);
+  }
+
+  console.log(searchResults);
+
   return (
     <>
       <div className="App">
-        <h1>Pokemon Search</h1>
-        <PokeSearch />
+        <h1>Kristoffers Pokémon-søk</h1>
+        <PokeSearch onSearchResults={handleSearchResults} />
         <Card />
       </div>
     </>
