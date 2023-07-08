@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <div className="App">
-        <h1>Kristoffers Pokémon-søk</h1>
+        <h1>Kristoffers Poké-søk</h1>
         <PokeSearch onSearchResults={handleSearchResults} />
         <Card />
       </div>

@@ -6,7 +6,7 @@ export interface IPokemon {
   image: string;
   shineyImage: string;
   abilities: string[];
-  type: string;
+  types: string[];
   hp: string;
   attack: string;
   defense: string;
@@ -14,4 +14,5 @@ export interface IPokemon {
   specialDefense: string;
   speed: string;
   weight: string;
+  height: string;
 }
