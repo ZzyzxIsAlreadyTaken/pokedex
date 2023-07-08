@@ -2,26 +2,16 @@ import { useEffect, useState } from "react"; // Import React and the useEffect a
 import axios from "axios"; // Import the axios library for making HTTP requests
 import styles from "./css/PokeSearchStyles.module.css"; // Import the PokeSearchStyles.module.css file
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi"; // Import the GiPerspectiveDiceSixFacesRandom icon from the react-icons/gi library
+import { BiSearchAlt2 } from "react-icons/bi"; // Import the BiSearchAlt2 icon from the react-icons/bi library
+import Autocomplete from "@mui/joy/Autocomplete";
+import { IPokemon } from "./IPokemon";
+import krisnobg from "../assets/krisNoBG.png";
 
-interface IPokemon {
-  // Define an interface for the Pokemon object
-  name: string;
-  id: string;
-  species: string;
-  image: string;
-  shineyImage: string;
-  abilities: string[];
-  type: string;
-  hp: string;
-  attack: string;
-  defense: string;
-  specialAttack: string;
-  specialDefense: string;
-  speed: string;
-  weight: string;
-}
-
-export default function PokeSearch() {
+export default function PokeSearch({
+  onSearchResults,
+}: {
+  onSearchResults: any;
+}) {
   // Define the PokeSearch component
   const [pokemonName, setPokemonName] = useState(""); // Define the pokemonName state variable and the setPokemonName function to update it
   const [isShiny, setIsShiny] = useState(false); // Add a state variable to track whether the image should be shiny or not
@@ -42,6 +32,89 @@ export default function PokeSearch() {
     speed: "",
     weight: "",
   });
+  const [extraEasterEgg, setExtraEasterEgg] = useState(false);
+  const easterEgg = (
+    <>
+      {extraEasterEgg ? (
+        <>
+          <span className={styles.id}>#{currentPokemon.id}</span>
+          <h2>KIDOBA</h2>
+          {/*Use the isShiny state variable to conditionally render the shiny or regular image*/}
+
+          <p>
+            <span className={styles.kidoba}>
+              Bonus Easteregg! <br /> Du fant det!
+            </span>
+          </p>
+          <img src={krisnobg} alt="Kidoba" />
+          <h2>Stats</h2>
+          <p>
+            <b>Art:</b> Menneske
+          </p>
+          <p>
+            <b>Type:</b> Guttebass / Kuling1
+          </p>
+          <p>
+            <b>Ferdigheter:</b> HåndballkeeperChamp, Snill som dagen er lang
+          </p>
+          <p>
+            <b>HP:</b> 13
+          </p>
+          <p>
+            <b>Angrep:</b> 130710
+          </p>
+          <p>
+            <b>Forsvar:</b> 130710
+          </p>
+          <p>
+            <b>Spesialangrep:</b> 130723
+          </p>
+          <p>
+            <b>Spesialforsvar:</b> 130723
+          </p>
+          <p>
+            <b>Hastighet:</b> Ekstremt rask
+          </p>
+          <p>
+            <b>Vekt:</b> Akkurat passe
+          </p>
+        </>
+      ) : (
+        <>
+          <p>
+            <span className={styles.kidoba}>
+              DU FANT EASTEREGGET!!! <br /> Eller er det enda et easteregg?!?!?!
+            </span>
+          </p>
+          <img
+            src={currentPokemon.image}
+            alt={currentPokemon.name}
+            onClick={() => {
+              setExtraEasterEgg(true);
+            }}
+          />
+        </>
+      )}
+    </>
+  );
+
+  const [pokemonNames, setPokemonNames] = useState([]);
+  async function getAllPokemonNames() {
+    axios
+      .get("https://pokeapi.co/api/v2/pokemon?limit=1281")
+      .then((response) => {
+        setPokemonNames(
+          response.data.results.map((pokemon: any) => pokemon.name)
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  useEffect(() => {
+    getAllPokemonNames();
+  }, []);
 
   function randomPokemon() {
     const random = Math.floor(Math.random() * 1008 + 1); // Generate a random number between 1 and 1008
@@ -69,6 +142,8 @@ export default function PokeSearch() {
           speed: response.data.stats[5].base_stat,
           weight: response.data.weight,
         });
+        setIsShiny(false); // Set the isShiny state variable to false
+        setExtraEasterEgg(false); // Set the extraEasterEgg state variable to false
       })
       .catch((error) => {
         // Handle any errors that occur during the HTTP request
@@ -91,7 +166,7 @@ export default function PokeSearch() {
       const response = await axios.get(
         `https://pokeapi.co/api/v2/pokemon/${pokemonName}`
       );
-      setCurrentPokemon({
+      const pokemon = {
         name: pokemonName,
         id: response.data.id,
         species: response.data.species.name,
@@ -109,7 +184,11 @@ export default function PokeSearch() {
         specialDefense: response.data.stats[4].base_stat,
         speed: response.data.stats[5].base_stat,
         weight: response.data.weight,
-      });
+      };
+      setCurrentPokemon(pokemon);
+      setIsShiny(false);
+      onSearchResults(pokemon);
+      setExtraEasterEgg(false); // Set the extraEasterEgg state variable to false
     } catch (error) {
       console.error(error);
     }
@@ -127,77 +206,94 @@ export default function PokeSearch() {
         <div className={styles.PokeSearchSearchArea}>
           {/*Render an input field that updates the pokemonName state variable when
       the user types in it */}
-          <input
-            type="text"
-            value={pokemonName.toLowerCase()}
-            onChange={(e) => setPokemonName(e.target.value)}
-            className={styles.PokeSearchSearchInput}
-            onKeyDown={(e) => handleKeyDown(e)}
-          />
+          <div className={styles.PokeSearchInputContainer}>
+            <Autocomplete
+              options={pokemonNames}
+              type="text"
+              value={pokemonName.toLowerCase()}
+              /*onChange={(e) => setPokemonName(e.target.value)}*/
+              inputValue={pokemonName.toLowerCase()}
+              onInputChange={(_event, newInputValue) => {
+                setPokemonName(newInputValue);
+              }}
+              className={styles.PokeSearchSearchInput}
+              onKeyDown={(e) => handleKeyDown(e)}
+            />
+            <span className={styles.searchIcon}>
+              <BiSearchAlt2 onClick={handleSearch} />
+            </span>
+          </div>
+
           <div className={styles.PokeSearchSearchButtonsContainer}>
-            {/*Render a search button
-      that triggers the handleSearch function when clicked */}
-            <button
-              onClick={handleSearch}
-              className={styles.PokeSearchSearchButton}
-            >
-              Søk
-            </button>
             {/*Render a random button */}
             <div className={styles.icon}>
               <GiPerspectiveDiceSixFacesRandom
                 onClick={randomPokemon}
-                fontSize="2rem"
+                style={{ cursor: "pointer" }}
               />
             </div>
           </div>
         </div>
-        <div className={styles.PokemonResultContainer}>
-          <span className={styles.id}>#{currentPokemon.id}</span>
-          <h2>{currentPokemon.name.toUpperCase()}</h2>
-          {currentPokemon.name === "psyduck" ? (
-            <p>
-              DU FANT EASTEREGGET! Gratulerer med dagen{" "}
-              <span className={styles.kidoba}>KIDOBA!</span>
-            </p>
-          ) : null}
-          {/*Use the isShiny state variable to conditionally render the shiny or regular image*/}
-          <img
-            src={isShiny ? currentPokemon.shineyImage : currentPokemon.image}
-            alt={currentPokemon.name}
-            onClick={handleImageClick}
-          />
-          <h2>Stats</h2>
-          <p>
-            <b>Art:</b> {currentPokemon.species}
-          </p>
-          <p>
-            <b>Type:</b> {currentPokemon.type}
-          </p>
-          <p>
-            <b>Ferdigheter:</b> {currentPokemon.abilities.join(", ")}
-          </p>
-          <p>
-            <b>HP:</b> {currentPokemon.hp}
-          </p>
-          <p>
-            <b>Angrep:</b> {currentPokemon.attack}
-          </p>
-          <p>
-            <b>Forsvar:</b> {currentPokemon.defense}
-          </p>
-          <p>
-            <b>Spesialangrep:</b> {currentPokemon.specialAttack}
-          </p>
-          <p>
-            <b>Spesialforsvar:</b> {currentPokemon.specialDefense}
-          </p>
-          <p>
-            <b>Hastighet:</b> {currentPokemon.speed}
-          </p>
-          <p>
-            <b>Vekt:</b> {currentPokemon.weight}
-          </p>
+        <div
+          className={`${styles.PokemonResultContainer} ${
+            currentPokemon.name === "psyduck" ? styles.goldencard : ""
+          }`}
+        >
+          {!extraEasterEgg ? (
+            <>
+              <span className={styles.id}>#{currentPokemon.id}</span>
+              <h2>{currentPokemon.name.toUpperCase()}</h2>
+              {/*Use the isShiny state variable to conditionally render the shiny or regular image*/}
+              {currentPokemon.name === "psyduck" ? (
+                easterEgg
+              ) : (
+                <>
+                  <img
+                    src={
+                      isShiny
+                        ? currentPokemon.shineyImage
+                        : currentPokemon.image
+                    }
+                    alt={currentPokemon.name}
+                    onClick={handleImageClick}
+                  />
+                </>
+              )}
+              <h2>Stats</h2>
+              <p>
+                <b>Art:</b> {currentPokemon.species}
+              </p>
+              <p>
+                <b>Type:</b> {currentPokemon.type}
+              </p>
+              <p>
+                <b>Ferdigheter:</b> {currentPokemon.abilities.join(", ")}
+              </p>
+              <p>
+                <b>HP:</b> {currentPokemon.hp}
+              </p>
+              <p>
+                <b>Angrep:</b> {currentPokemon.attack}
+              </p>
+              <p>
+                <b>Forsvar:</b> {currentPokemon.defense}
+              </p>
+              <p>
+                <b>Spesialangrep:</b> {currentPokemon.specialAttack}
+              </p>
+              <p>
+                <b>Spesialforsvar:</b> {currentPokemon.specialDefense}
+              </p>
+              <p>
+                <b>Hastighet:</b> {currentPokemon.speed}
+              </p>
+              <p>
+                <b>Vekt:</b> {currentPokemon.weight}
+              </p>
+            </>
+          ) : (
+            easterEgg
+          )}
         </div>
       </div>
     </>

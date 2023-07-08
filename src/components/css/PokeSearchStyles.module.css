@@ -5,10 +5,22 @@
     justify-content: center;
     background-color: #7AA3B8;
     border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
-    border: 1px solid #F0DBA5;
-    box-shadow: 5px 10px 2px #F0DBA5;
+    padding: 0.5rem;
+    border: 1px solid #E7E7E6;
+    box-shadow: 5px 10px 2px #464646;
+}
+
+.goldencard{
+    background-color: #F0DBA5!important;
+    border-radius: 10px;
+    padding: 0.5rem;
+    border: 1px solid #E7E7E6;
+    box-shadow: 5px 10px 2px #464646;
+}
+
+.PokemonResultContainer:hover{
+    transform: scale(1.01);
+    box-shadow: 5px 10px 1px #464646;
 }
 
 .PokeSearchSearchArea{
@@ -18,42 +30,59 @@
     justify-content: center;
     background-color: #7AA3B8;
     border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+    padding: 5px;
 }
+
+.PokeSearchInputContainer{
+    display: flex;
+    width: 30vw;
+}
+
+@media (max-width: 768px) {
+    .PokeSearchInputContainer {
+      width: 80vw;
+    }
+  }
+
+.searchIcon{
+    padding: 7px;
+    font-size: 2rem;
+}
+
+.searchIcon:hover{
+    transform: scale(1.05);
+    color:#F0DBA5;
+  }
 
 .PokeSearchSearchInput{
-    width: 30vh;
-    font-size: 1rem;
+    width: 100%;
+    border: none;
+    background: white;
+    padding: 5px;
+    margin: 0;
+    font-size: 1.5rem;
+    color: inherit;
+    border: 1px solid transparent;
     border-radius: 5px;
-    border: 0;
-    margin: 10px;
-    padding: 10px;
+    padding: 0.5rem;
 }
 
-.PokeSearchSearchButton{
-    width: 45%;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: 1px solid #E7E7E6;
-    margin: 10px;
-    padding: 5px;
-    background-color: #7AA3B8;
-    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease 0s;
-    cursor: pointer;
+.PokeSearchSearchInput:focus{
+    outline: none;
+    border: 1px solid #F0DBA5;
 }
 
 .PokeSearchSearchButton:hover {
     background-color: #F0DBA5;
     box-shadow: 0px 15px 20px rgba(240, 219, 165, 0.4);
     color: #fff;
-    transform: translateY(-7px);
+    transform: translateY(-2px);
   }
 
   .kidoba{
     color: #C04C4B;
     font-weight: bolder;
+    font-size: 1.5rem;
   }
 
   .PokemonResultContainer img{
@@ -67,19 +96,42 @@
     justify-content: center;
     background-color: #7AA3B8;
     border-radius: 10px;
-    padding: 10px;
-    margin: 10px;
+    margin-top: 10px;
     width: 100%;
   }
 
   .icon{
     width: 45%;
-    margin: 10px;
     cursor: pointer;
     color: #464646;
+    text-align: center;
+    font-size: 5rem;
   }
 
   .icon:hover{
-    transform: scale(1.2);
+    transform: scale(1.1);
     color:#F0DBA5;
+  }
+
+  @media (max-width: 768px) {
+    .PokeSearchSearchButtonsContainer {
+      flex-direction: column;
+    }
+  
+    .icon {
+      width: 80%;
+      margin: 5px auto;
+    }
+  
+    .PokeSearchSearchButton {
+      width: 80%;
+    }
+
+    .PokemonResultContainer{
+        width: 90vw;
+        justify-content: center;
+    }
+    .PokemonResultContainer img{
+        width: 60vw; 
+      }
   }

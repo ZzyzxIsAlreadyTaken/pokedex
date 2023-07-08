@@ -10,8 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/joy": "^5.0.0-alpha.86",
     "axios": "^1.4.0",
     "react": "^18.2.0",
+    "react-autocomplete-input": "^1.0.20",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1"
   },
